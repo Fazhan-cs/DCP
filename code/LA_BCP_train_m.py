@@ -92,6 +92,44 @@ def get_cut_mask_ex(out1, out2, thres=0.5, nms=0):
     if nms == 1:
         masks = LargestCC_pancreas(masks)
     return masks
+def get_cut_mask_ens(out1, out2, nms=0, average_prob_diff=0.0, iteration_count=0):
+
+    probs1 = F.softmax(out1, 1)
+    probs2 = F.softmax(out2, 1)
+    
+
+    prob_sum = probs1 + probs2
+    prob_diff = torch.abs(probs1 - probs2)
+    
+
+    iteration_count += 1
+
+
+    current_mean_diff = torch.mean(prob_diff)
+
+
+    if iteration_count == 1:
+        average_prob_diff = current_mean_diff.item()
+    else:
+        average_prob_diff = (average_prob_diff * (iteration_count - 1) + current_mean_diff.item()) / iteration_count
+
+
+    if iteration_count <= 200 or current_mean_diff > average_prob_diff:
+
+        masks = (prob_sum >= 1).type(torch.int64)
+    else:
+ 
+        masks1 = (probs1 >= 0.5).type(torch.int64)
+        masks2 = (probs2 >= 0.5).type(torch.int64)
+        masks = (masks1 & masks2)
+
+
+    masks = masks[:, 1, :, :].contiguous()
+    if nms == 1:
+        masks = LargestCC_pancreas(masks)
+
+    return masks, average_prob_diff, iteration_count
+
 def get_cut_mask_exx(out1, out2, thres=0.5, nms=0):
     output1 = F.softmax(out1, 1)
     output2 = F.softmax(out2, 1)
