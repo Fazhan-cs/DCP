@@ -7,11 +7,7 @@ by Fa, Zhan and Li, Shumeng and Zhang, Jian and Qi, Lei and Yu, Qian and Shi, Yi
 If you find these projects useful, please consider citing:
 
 ```bibtex
-@article{fa4882211dual,
-  title={Dual-Teacher Ensemble Models with Double-Copy-Paste for 3d Semi-Supervised Medical Image Segmentation},
-  author={Fa, Zhan and Li, Shumeng and Zhang, Jian and Qi, Lei and Yu, Qian and Shi, Yinghuan},
-  journal={Available at SSRN 4882211}
-}
+Fa Z, Li S, Zhang J, et al. Dual-Teacher Ensemble Models with Double-Copy-Paste for 3D Semi-Supervised Medical Image Segmentation[J]. arXiv preprint arXiv:2410.11509, 2024.
 ```
 
 ## Acknowledgements
